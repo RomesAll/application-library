@@ -1,12 +1,9 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from .decorators import checking_variables_db
-from .logging_config import configure_logging
-import os, sys, logging
+from .logging_config import LoggingConfig, OutputLogging
+import os, sys
 
 __all__ = ['BASE_DIR', 'settings']
-
-logger = logging.getLogger(__name__)
-configure_logging(level=logging.INFO)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(BASE_DIR)
@@ -32,21 +29,21 @@ class PostgresSettings(BaseSettings):
     @property
     @checking_variables_db
     def POSTGRES_URL_async(self):
-        logger.info('Получения url для подключения к бд (асинхронно)')
         return f'postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}'
 
     @property
     @checking_variables_db
     def POSTGRES_URL_sync(self):
-        logger.info('Получения url для подключения к бд (синхронно)')
         return f'postgresql+psycopg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}'
 
     @property
     def POSTGRES_URL_default(self):
-        logger.info('Получения url для подключения к бд (по умолчанию)')
         return f'sqlite+pysqlite:///:default.db:'
 
 class Settings(BaseSettings):
     database: PostgresSettings = PostgresSettings()
+    logging: LoggingConfig = LoggingConfig(name='app-logging')
 
 settings = Settings()
+settings.logging.create_handler(output_logging=OutputLogging.console)
+settings.logging.create_handler(output_logging=OutputLogging.file, file='app.log', file_mode='a')
