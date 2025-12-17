@@ -1,0 +1,14 @@
+2025-12-17 07:24:01,057 - config.config_project - INFO - Получения url для подключения к бд (синхронно)
+2025-12-17 07:24:01,153 - config.config_project - INFO - Получения url для подключения к бд (асинхронно)
+2025-12-17 07:24:01,169 - config.config_project - INFO - Получения url для подключения к бд (по умолчанию)
+2025-12-17 07:24:01,176 - config.config_project - INFO - Получения url для подключения к бд (по умолчанию)
+2025-12-17 07:24:24,911 - config.decorators - WARNING - Недостаточно данных для получения url к базе данных. Возможно, не все параметры были подгружены из env файла. Обязательные параметры: ['POSTGRES_HOST', 'POSTGRES_USER', 'POSTGRES_PASSWORD', 'POSTGRES_DB', 'POSTGRES_PORT', 'POSTGRES_MODE']
+2025-12-17 07:24:24,911 - config.database - ERROR - Не удалось создать машину соединений (engine_sync) из-за неверных параметров, переданных в url
+2025-12-17 07:24:24,911 - config.decorators - WARNING - Недостаточно данных для получения url к базе данных. Возможно, не все параметры были подгружены из env файла. Обязательные параметры: ['POSTGRES_HOST', 'POSTGRES_USER', 'POSTGRES_PASSWORD', 'POSTGRES_DB', 'POSTGRES_PORT', 'POSTGRES_MODE']
+2025-12-17 07:24:24,911 - config.database - ERROR - Ошибка создания машины соединений (engine_async) из-за неверных параметров, переданных в url
+2025-12-17 07:24:24,911 - config.config_project - INFO - Получения url для подключения к бд (по умолчанию)
+2025-12-17 07:24:24,919 - config.config_project - INFO - Получения url для подключения к бд (по умолчанию)
+2025-12-17 07:24:42,678 - config.config_project - INFO - Получения url для подключения к бд (синхронно)
+2025-12-17 07:24:42,767 - config.config_project - INFO - Получения url для подключения к бд (асинхронно)
+2025-12-17 07:24:42,782 - config.config_project - INFO - Получения url для подключения к бд (по умолчанию)
+2025-12-17 07:24:42,789 - config.config_project - INFO - Получения url для подключения к бд (по умолчанию)
