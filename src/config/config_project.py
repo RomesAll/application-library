@@ -24,7 +24,7 @@ class PostgresSettings(BaseSettings):
     POSTGRES_DB: str | None = None
     POSTGRES_PORT: int | None = None
     POSTGRES_MODE: str | None = None
-    model_config = SettingsConfigDict(env_file=f'{BASE_DIR}/.env_test')
+    model_config = SettingsConfigDict(env_file=f'{BASE_DIR}/.env_dev')
 
     @property
     @checking_variables_db
