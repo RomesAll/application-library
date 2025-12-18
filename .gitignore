@@ -1,3 +1,4 @@
 /venv/
 /.env_test
 /.env_dev
+/app.log
