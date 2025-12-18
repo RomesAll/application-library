@@ -5,14 +5,14 @@ from datetime import datetime
 
 class Publishers(Base):
     __tablename__ = 'publisher'
-    id: Mapped[int] = mapped_column(primary_key=True, auto_increment=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str]
-    year_foundation: Mapped[str] = mapped_column(default='2000')
-    description: Mapped[str] = mapped_column(default='')
+    year_foundation: Mapped[int]
+    description: Mapped[str] = mapped_column(default='', server_default='')
 
 class Genres(Base):
     __tablename__ = 'genres'
-    id: Mapped[int] = mapped_column(primary_key=True, auto_increment=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str]
 
 class Books(Base):
@@ -21,7 +21,7 @@ class Books(Base):
     slug: Mapped[str]
     name: Mapped[str]
     publisher: Mapped[int] = mapped_column(ForeignKey('publisher.id', ondelete='CASCADE'))
-    year_writing: Mapped[datetime]
+    year_writing: Mapped[int]
     price: Mapped[float]
     discount: Mapped[float] = mapped_column(default=0)
     author: Mapped[str]

@@ -8,9 +8,9 @@ class Role(Enum):
     USER = 'user'
 
 class Post(Enum):
-    ACCOUNTANT = 'ACCOUNTANT'
-    MANAGER = 'MANAGER'
-    DIRECTOR = 'DIRECTOR'
+    ACCOUNTANT = 'accountant'
+    MANAGER = 'manager'
+    DIRECTOR = 'director'
 
 class Workload(Enum):
     PARTTIME = 'parttime'
