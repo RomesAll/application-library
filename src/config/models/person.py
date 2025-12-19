@@ -6,6 +6,5 @@ class Person:
     id: Mapped[int] = mapped_column(primary_key=True)
     fio: Mapped[str]
     phone_number: Mapped[str]
-    email: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
-    address: Mapped[str]
