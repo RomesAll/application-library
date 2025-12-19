@@ -1,7 +1,6 @@
 from src.config import session_factory_async
 from src.config.models.readers import Readers
 from sqlalchemy import select
-import asyncio
 
 class ReaderRepository:
 
@@ -35,6 +34,7 @@ class ReaderRepository:
                 if v is not None:
                     setattr(updating_orm_model, k, v)
             await session.commit()
+            return updating_orm_model
 
     async def delete_reader_async(self, reader_id: int):
         async with session_factory_async() as session:

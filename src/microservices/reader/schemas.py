@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator, model_validator, Field
+from pydantic import BaseModel, field_validator, model_validator, Field, ConfigDict
 from fastapi import HTTPException
 from datetime import datetime
 import re
@@ -7,9 +7,10 @@ class ReaderCreateDTO(BaseModel):
     fio: str = Field(default='default_fio', min_length=5, max_length=50, examples=['Петров П.В.', 'Петров Петр Владимирович'], description='ФИО читателя')
     phone_number: str = Field(default='default_phone_number', examples=['+79021348294', '89021348295'], description='Номер телефона читателя')
     email: str = Field(default='default_email', examples=['test@gmail.com'], description='Email читателя')
-    password: bytes = Field(default=b'default_password')
+    password: str = Field(default=b'default_password')
     gender: str = Field(default='default_gender', examples=['м', 'ж'], description='Пол читателя')
     discount: float = Field(default='default_discount', ge=0, le=100, examples=['0', '100'], description='Персональная скидка для читателя')
+    model_config = ConfigDict(from_attributes=True)
 
     @field_validator('phone_number')
     def phone_number_validator(cls, v):
