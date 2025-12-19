@@ -2,4 +2,4 @@
 /.env_test
 /.env_dev
 /app.log
-/src/microservices/*/__pycache__/
+/src/microservices/*/__pycache__
