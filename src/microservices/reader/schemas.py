@@ -39,3 +39,6 @@ class ReaderGetDTO(ReaderCreateDTO):
 
 class ReaderUpdateDTO(ReaderCreateDTO):
     id: int = Field(..., ge=0, description='Id читателя')
+
+class ReaderDeleteDTO(ReaderGetDTO):
+    deleted_at: datetime
