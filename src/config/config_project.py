@@ -17,7 +17,7 @@ REQUIRED_ENV_VAR = [
     'POSTGRES_MODE'
 ]
 
-class PostgresSettings(BaseSettings):
+class PostgresConfig(BaseSettings):
     POSTGRES_HOST: str | None = None
     POSTGRES_USER: str | None = None
     POSTGRES_PASSWORD: str | None = None
@@ -41,7 +41,7 @@ class PostgresSettings(BaseSettings):
         return f'sqlite+pysqlite:///:default.db:'
 
 class Settings(BaseSettings):
-    database: PostgresSettings = PostgresSettings()
+    database: PostgresConfig = PostgresConfig()
     logging: LoggingConfig = LoggingConfig(name='app-logging')
 
 settings = Settings()
