@@ -1,42 +1,41 @@
-from fastapi import FastAPI, Depends
-from schemas import ReaderCreateDTO, ReaderGetDTO, ReaderUpdateDTO, ReaderDeleteDTO
-from services import ReaderService
-from depends import db_session
-from exception_handler import exception_handler_helper
-import uvicorn
+from fastapi import APIRouter
+from .schemas import ReaderCreateDTO, ReaderGetDTO, ReaderUpdateDTO, ReaderDeleteDTO
+from .services import ReaderService
+from .depends import db_session
+from src.config import settings
 
-app = FastAPI()
-exception_handler_helper(app)
+router = APIRouter(tags=['Reader'], prefix='/reader')
 
-@app.get('/', description='Вывод всех читателей')
+@router.get('/', description='Вывод всех читателей')
 async def get_all_readers(session: db_session):
     result = await ReaderService(db_session=session).select_all_reader_async()
+    settings.logging.logger.debug('Вывод всех читателей')
     return result
 
 
-@app.get('/{reader_id}', description='Вывод читателя по id')
+@router.get('/{reader_id}', description='Вывод читателя по id')
 async def get_reader_by_id(reader_id: int, session: db_session):
     result = await ReaderService(db_session=session).select_reader_by_id_async(reader_id)
+    settings.logging.logger.debug('Вывод читателя по id')
     return result
 
 
-@app.post('/', description='Добавить читателя')
+@router.post('/', description='Добавить читателя')
 async def create_reader(reader: ReaderCreateDTO, session: db_session):
-    result = await ReaderService(db_session=session.get_session_async).create_reader_async(reader)
+    result = await ReaderService(db_session=session).create_reader_async(reader)
+    settings.logging.logger.debug('Добавить читателя')
     return result
 
 
-@app.put('/{reader_id}', description='Обновить читателя')
+@router.put('/{reader_id}', description='Обновить читателя')
 async def update_reader_by_id(reader: ReaderUpdateDTO, session: db_session):
-    result = await ReaderService(db_session=session.get_session_async).update_reader_async(reader)
+    result = await ReaderService(db_session=session).update_reader_async(reader)
+    settings.logging.logger.debug('Обновить читателя')
     return result
 
 
-@app.delete('/{reader_id}', description='Удалить читателя по id')
+@router.delete('/{reader_id}', description='Удалить читателя по id')
 async def delete_reader_by_id(reader_id, session: db_session):
-    result = await ReaderService(db_session=session.get_session_async).delete_reader_async(reader_id)
+    result = await ReaderService(db_session=session).delete_reader_async(reader_id)
+    settings.logging.logger.debug('Удалить читателя по id')
     return result
-
-
-if __name__ == '__main__':
-    uvicorn.run("api:app", host='0.0.0.0', port=8000, reload=True)

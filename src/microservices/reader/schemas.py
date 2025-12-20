@@ -1,5 +1,4 @@
-from pydantic import BaseModel, field_validator, model_validator, Field, ConfigDict
-from fastapi import HTTPException
+from pydantic import BaseModel, field_validator, Field, ConfigDict
 from datetime import datetime
 import re
 

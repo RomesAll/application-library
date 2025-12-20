@@ -1,3 +1,4 @@
+import logging
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from .decorators import checking_variables_db
 from .logging_config import LoggingConfig, OutputLogging
@@ -42,7 +43,7 @@ class PostgresConfig(BaseSettings):
 
 class Settings(BaseSettings):
     database: PostgresConfig = PostgresConfig()
-    logging: LoggingConfig = LoggingConfig(name='app-logging')
+    logging: LoggingConfig = LoggingConfig(name='app-logging', level=logging.DEBUG)
 
 settings = Settings()
 settings.logging.create_handler(output_logging=OutputLogging.console)

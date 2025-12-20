@@ -1,5 +1,5 @@
-from schemas import *
-from repository import *
+from .schemas import *
+from .repository import *
 
 class ReaderService:
 
