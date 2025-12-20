@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, MetaData, text
 from .config_project import settings
 from datetime import datetime, timezone
 
-__all__ = ['DatabaseEngineHelper', 'db_helper', 'Base']
+__all__ = ['Base', 'db_engine_helper']
 
 class DatabaseEngineHelper:
 
@@ -67,7 +67,7 @@ class DatabaseEngineHelper:
             finally:
                 connection.close()
 
-db_helper = DatabaseEngineHelper()
+db_engine_helper = DatabaseEngineHelper()
 
 def get_current_time():
     dt = datetime.now(tz=timezone.utc)

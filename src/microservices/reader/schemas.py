@@ -16,21 +16,21 @@ class ReaderCreateDTO(BaseModel):
     def phone_number_validator(cls, v):
         result = re.fullmatch(r'(\+7|8)( ?[(-]?\d{3}[)-]? ?)(\d{3})([ -]?\d{2}){2}', v)
         if result is None:
-            raise HTTPException(status_code=400, detail='Неверный формат телефона')
+            raise ValueError('Неверный формат телефона')
         return v
 
     @field_validator('email')
     def email_validator(cls, v):
         result = re.fullmatch(r'\S+@[a-z]{2,7}\.[a-z]{1,7}', v)
         if result is None:
-            raise HTTPException(status_code=400, detail='Неверный формат почты')
+            raise ValueError('Неверный формат почты')
         return v
 
     @field_validator('gender')
     def gender_validator(cls, v):
         result = re.fullmatch(r'([wmMWМЖмж])(oman|man|an|ужской|енский)?', v)
         if result is None:
-            raise HTTPException(status_code=400, detail='Неверный формат пола')
+            raise ValueError('Неверный формат пола')
         return v
 
 class ReaderGetDTO(ReaderCreateDTO):
