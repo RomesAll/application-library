@@ -42,3 +42,7 @@ class ReaderUpdateDTO(ReaderCreateDTO):
 
 class ReaderDeleteDTO(ReaderGetDTO):
     deleted_at: datetime
+
+class PaginationParams(BaseModel):
+    limit: int = Field(100, ge=0, le=100, description='Кол-во выводимых записей')
+    offset: int = Field(0, ge=0, description='Смещение')

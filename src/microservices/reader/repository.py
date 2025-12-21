@@ -3,14 +3,15 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from .exception_handler import ReaderNotFoundError
 from src.config import settings
+from .schemas import PaginationParams
 
 class ReaderRepository:
 
     def __init__(self, db_session):
         self.db_session: AsyncSession = db_session
 
-    async def select_all_reader_async(self):
-        query = select(Readers)
+    async def select_all_reader_async(self, pagination_params: PaginationParams):
+        query = select(Readers).limit(pagination_params.limit).offset(pagination_params.offset)
         records = await self.db_session.execute(query)
         settings.logging.logger.info(f'Получение данных о читателях')
         return records.scalars().all()

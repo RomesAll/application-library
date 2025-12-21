@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 from .schemas import ReaderCreateDTO, ReaderGetDTO, ReaderUpdateDTO, ReaderDeleteDTO
 from .services import ReaderService
-from .depends import db_session
+from .depends import db_session, pagination_params_dep
 from src.config import settings
 
 router = APIRouter(tags=['Reader'], prefix='/reader')
 
 @router.get('/', description='Вывод всех читателей')
-async def get_all_readers(session: db_session):
-    result = await ReaderService(db_session=session).select_all_reader_async()
+async def get_all_readers(session: db_session, pagination_params: pagination_params_dep):
+    result = await ReaderService(db_session=session).select_all_reader_async(pagination_params)
     settings.logging.logger.debug('Вывод всех читателей')
     return result
 
