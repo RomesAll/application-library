@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from src.microservices.reader import router as reader_router
 from src.microservices.reader import exception_handler_helper
+from src.config import settings
 import uvicorn
 
 app = FastAPI()
@@ -12,6 +13,12 @@ exception_handler_helper(app)
 
 app.include_router(reader_router)
 
+@app.middleware("http")
+async def logging_middleware(request: Request, call_next):
+    settings.logging.logger.info(f'{request.client.host} - {request.method} - запрос пришел на обработку в сервис')
+    response = await call_next(request)
+    settings.logging.logger.info(f'{request.client.host} - {request.method} - запрос был успешно обработан в сервисе')
+    return response
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host='0.0.0.0', port=8000, reload=True)
