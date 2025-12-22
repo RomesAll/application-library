@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import DataError, DBAPIError, IntegrityError, DatabaseError
 from src.config import settings
 
-class ReaderNotFoundError(Exception):
+class RecordNotFoundError(Exception):
     def __init__(self, message: str):
         self.message = message
 
@@ -43,7 +43,7 @@ def exception_handler_helper(app: FastAPI):
         settings.logging.logger.exception(f'{request.client} - {exc}')
         return JSONResponse(status_code=500, content=str(exc))
 
-    @app.exception_handler(ReaderNotFoundError)
-    def reader_not_found_error(request: Request, exc: ReaderNotFoundError):
+    @app.exception_handler(RecordNotFoundError)
+    def record_not_found_error(request: Request, exc: RecordNotFoundError):
         settings.logging.logger.exception(f'{request.client} - {exc}')
         return JSONResponse(status_code=404, content=str(exc))

@@ -5,7 +5,7 @@ from .person import Person
 
 class Role(Enum):
     ADMIN = 'admin'
-    USER = 'user'
+    USER = 'users'
 
 class Post(Enum):
     ACCOUNTANT = 'accountant'
