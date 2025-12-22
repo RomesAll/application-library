@@ -23,3 +23,4 @@ class Users(Person, Base):
     role: Mapped["Role"] = mapped_column(default=Role.USER)
     post: Mapped["Post"] = mapped_column(default=Post.MANAGER)
     bonus: Mapped[float] = mapped_column(default=0)
+    address: Mapped[str]

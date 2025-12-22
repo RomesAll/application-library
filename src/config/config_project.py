@@ -1,3 +1,4 @@
+import logging
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from .decorators import checking_variables_db
 from .logging_config import LoggingConfig, OutputLogging
@@ -17,7 +18,7 @@ REQUIRED_ENV_VAR = [
     'POSTGRES_MODE'
 ]
 
-class PostgresSettings(BaseSettings):
+class PostgresConfig(BaseSettings):
     POSTGRES_HOST: str | None = None
     POSTGRES_USER: str | None = None
     POSTGRES_PASSWORD: str | None = None
@@ -41,8 +42,8 @@ class PostgresSettings(BaseSettings):
         return f'sqlite+pysqlite:///:default.db:'
 
 class Settings(BaseSettings):
-    database: PostgresSettings = PostgresSettings()
-    logging: LoggingConfig = LoggingConfig(name='app-logging')
+    database: PostgresConfig = PostgresConfig()
+    logging: LoggingConfig = LoggingConfig(name='app-logging', level=logging.DEBUG)
 
 settings = Settings()
 settings.logging.create_handler(output_logging=OutputLogging.console)
