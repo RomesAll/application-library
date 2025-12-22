@@ -4,17 +4,17 @@ from enum import Enum
 from .person import Person
 
 class Role(Enum):
-    ADMIN = 'admin'
-    USER = 'users'
+    ADMIN = 'ADMIN'
+    USER = 'USER'
 
 class Post(Enum):
-    ACCOUNTANT = 'accountant'
-    MANAGER = 'manager'
-    DIRECTOR = 'director'
+    ACCOUNTANT = 'ACCOUNTANT'
+    MANAGER = 'MANAGER'
+    DIRECTOR = 'DIRECTOR'
 
 class Workload(Enum):
-    PARTTIME = 'parttime'
-    FULLTIME = 'fulltime'
+    PARTTIME = 'PARTTIME'
+    FULLTIME = 'FULLTIME'
 
 class Users(Person, Base):
     __tablename__ = 'users'
