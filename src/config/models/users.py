@@ -25,7 +25,8 @@ class Users(Person, Base):
     post: Mapped["Post"] = mapped_column(default=Post.MANAGER)
     bonus: Mapped[float] = mapped_column(default=0)
     address: Mapped[str]
-    distribution: Mapped[list["Distributions"]] = relationship(back_populates='seller')
+
+    distributions: Mapped[list["Distributions"]] = relationship(back_populates='seller')
 
     __table_args__ = (
         Index('users_index', 'workload', 'salary', 'address', 'fio', 'phone_number', 'email'),

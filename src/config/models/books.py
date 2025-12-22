@@ -27,7 +27,9 @@ class Books(Base):
     author: Mapped[str]
     count_page: Mapped[int]
     genres_id: Mapped[int] = mapped_column(ForeignKey('genres.id', ondelete='CASCADE'))
+
     readers: Mapped[list["Readers"]] = relationship(back_populates='books', secondary='distributions')
+    distributions: Mapped[list["Distributions"]] = relationship(back_populates='book')
 
     __table_args__ = (
         Index('books_index', 'name', 'slug'),
