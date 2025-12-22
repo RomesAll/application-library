@@ -10,7 +10,10 @@ class Distributions(Base):
     readers_id: Mapped[int] = mapped_column(ForeignKey('readers.id', ondelete='CASCADE'))
     seller_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'))
     total_amount: Mapped[float]
-    seller: Mapped["Users"] = relationship(back_populates='distribution')
+
+    seller: Mapped["Users"] = relationship(back_populates='distributions')
+    book: Mapped["Books"] = relationship(back_populates='distributions')
+    reader: Mapped["Readers"] = relationship(back_populates='distributions')
 
     __table_args__ = (
         CheckConstraint('total_amount >= 0', name='total_amount_is_positive'),
