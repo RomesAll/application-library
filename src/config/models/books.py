@@ -27,3 +27,8 @@ class Books(Base):
     author: Mapped[str]
     count_page: Mapped[int]
     genres: Mapped[int] = mapped_column(ForeignKey('genres.id', ondelete='CASCADE'))
+
+    def get_model_attributes(self):
+        attrs = {'slug': self.slug, 'name': self.name, 'publisher': self.publisher, 'year_writing': self.year_writing,
+                 'price': self.price, 'discount': self.discount, 'author': self.author, 'count_page': self.count_page, 'genres': self.genres}
+        return attrs

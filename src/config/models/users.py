@@ -24,3 +24,10 @@ class Users(Person, Base):
     post: Mapped["Post"] = mapped_column(default=Post.MANAGER)
     bonus: Mapped[float] = mapped_column(default=0)
     address: Mapped[str]
+
+    def get_model_attributes(self):
+        attrs = super().get_model_attributes()
+        attrs.update({'workload': self.workload, 'salary': self.salary,
+                      'role': self.role, 'post': self.post,
+                      'bonus': self.bonus, 'address': self.address})
+        return attrs
