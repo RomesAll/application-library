@@ -1,7 +1,7 @@
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import ForeignKey, Index, CheckConstraint
 from ..database import Base
-from datetime import datetime
+from .readers import *
 
 class Publishers(Base):
     __tablename__ = 'publishers'
@@ -27,6 +27,14 @@ class Books(Base):
     author: Mapped[str]
     count_page: Mapped[int]
     genres_id: Mapped[int] = mapped_column(ForeignKey('genres.id', ondelete='CASCADE'))
+    readers: Mapped[list["Readers"]] = relationship(back_populates='books', secondary='distributions')
+
+    __table_args__ = (
+        Index('books_index', 'name', 'slug'),
+        CheckConstraint('price >= 0', name='price_is_positive'),
+        CheckConstraint('discount >= 0 and discount <= 100', name='discount_beetween_0_and_100'),
+        CheckConstraint('count_page >= 0', name='count_page_is_positive')
+    )
 
     def get_model_attributes(self):
         attrs = {'slug': self.slug, 'name': self.name, 'publishers': self.publishers_id, 'year_writing': self.year_writing,
