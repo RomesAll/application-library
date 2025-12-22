@@ -9,20 +9,6 @@ class SensitiveDataFilter(logging.Filter):
         res = not any(word in record.getMessage().lower() for word in ['password', 'token', 'secret'])
         return res
 
-# def configure_logging(level=logging.INFO):
-#     logger = logging.getLogger("database_logger")
-#     logger.setLevel(level)
-#     formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-#
-#     console_handler = logging.StreamHandler()
-#     console_handler.setFormatter(formatter)
-#     logger.addHandler(console_handler)
-#
-#     file_handler = logging.FileHandler("database.log")
-#     file_handler.setFormatter(formatter)
-#     file_handler.addFilter(SensitiveDataFilter())
-#     logger.addHandler(file_handler)
-
 class OutputLogging(Enum):
     file = 'file'
     console = 'console'

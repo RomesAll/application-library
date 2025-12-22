@@ -7,4 +7,7 @@ class Person:
     fio: Mapped[str]
     phone_number: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True)
-    password: Mapped[str]
+    password: Mapped[bytes]
+
+    def get_model_attributes(self, exclude_none=False):
+        return {'fio': self.fio, 'phone_number': self.phone_number, 'password': self.password, 'email': self.email}
