@@ -1,7 +1,7 @@
 from src.config.models.readers import Readers
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from .exception_handler import ReaderNotFoundError
+from src.config.exception_handler import RecordNotFoundError
 from src.config import settings
 from .schemas import PaginationParams
 from fastapi import Request
@@ -29,7 +29,7 @@ class ReaderRepository:
     async def select_reader_by_id_async(self, reader_id: int):
         record = await self.db_session.get(Readers, {'id': reader_id})
         if record is None:
-            raise ReaderNotFoundError(message=f'Читатель с номером: {reader_id} не найден')
+            raise RecordNotFoundError(message=f'Читатель с номером: {reader_id} не найден')
         settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о читателе с id: {reader_id}')
         return record
 
@@ -44,7 +44,7 @@ class ReaderRepository:
     async def update_reader_async(self, orm_model: Readers):
         updating_orm_model = await self.db_session.get(Readers, {'id': orm_model.id})
         if updating_orm_model is None:
-            raise ReaderNotFoundError(message=f'Читатель с номером: {orm_model.id} не найден')
+            raise RecordNotFoundError(message=f'Читатель с номером: {orm_model.id} не найден')
         for k,v in orm_model.get_model_attributes().items():
             if v is not None and k != 'password':
                 setattr(updating_orm_model, k, v)
@@ -56,7 +56,7 @@ class ReaderRepository:
     async def delete_reader_async(self, reader_id: int):
         deleting_orm_model = await self.db_session.get(Readers, {'id': int(reader_id)})
         if deleting_orm_model is None:
-            raise ReaderNotFoundError(message=f'Читатель с номером: {reader_id} не найден')
+            raise RecordNotFoundError(message=f'Читатель с номером: {reader_id} не найден')
         await self.db_session.delete(deleting_orm_model)
         await self.db_session.commit()
         settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - удалил данные читателя с id: {reader_id}')

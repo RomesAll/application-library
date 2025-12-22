@@ -1,4 +1,4 @@
-__all__ = ['Users', 'Readers', 'Books', 'Distributions']
+__all__ = ['Users', 'Readers', 'Books', 'Distributions', 'Role', 'Post', 'Workload']
 
 from .distributions import *
 from .books import *
