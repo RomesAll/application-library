@@ -3,3 +3,5 @@
 /.env_dev
 /app.log
 /src/microservices/*/__pycache__/
+/__pycache__/
+/__pycache__
