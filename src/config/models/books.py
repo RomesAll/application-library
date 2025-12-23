@@ -38,7 +38,18 @@ class Books(Base):
         CheckConstraint('count_page >= 0', name='count_page_is_positive')
     )
 
-    def get_model_attributes(self):
-        attrs = {'slug': self.slug, 'name': self.name, 'publishers': self.publishers_id, 'year_writing': self.year_writing,
-                 'price': self.price, 'discount': self.discount, 'author': self.author, 'count_page': self.count_page, 'genres': self.genres_id}
+    def get_model_attr_without_relations(self):
+        attrs = {'id': self.id, 'slug': self.slug,
+                 'name': self.name, 'publishers': self.publishers_id,
+                 'year_writing': self.year_writing, 'price': self.price,
+                 'discount': self.discount, 'author': self.author,
+                 'count_page': self.count_page, 'genres': self.genres_id,
+                 'created_at': self.created_at.isoformat(), 'updated_at': self.updated_at.isoformat()}
+        self._delete_private_attrs_helper(attrs)
+        return attrs
+
+    def get_model_attr_with_relations(self):
+        attrs = self.get_model_attr_without_relations()
+        attrs.update({'readers': self.readers, 'distributions': self.distributions})
+        self._delete_private_attrs_helper(attrs)
         return attrs
