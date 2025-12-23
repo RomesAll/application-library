@@ -1,0 +1,8 @@
+/venv/
+/.env_test
+/.env_dev
+/app.log
+/src/__pycache__/*.pyc
+/src/*/__pycache__/*.pyc
+/src/*/*/__pycache__/*.pyc
+/__pycache__/*.pyc
