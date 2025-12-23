@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..database import Base
+from sqlalchemy import Index, CheckConstraint
 from enum import Enum
 from .person import Person
 from .distributions import *
@@ -34,9 +35,17 @@ class Users(Person, Base):
         CheckConstraint('bonus >= 0', 'bonus_is_positive'),
     )
 
-    def get_model_attributes(self):
-        attrs = super().get_model_attributes()
+    def get_model_attr_without_relations(self):
+        attrs = super().get_model_attr_without_relations()
         attrs.update({'workload': self.workload, 'salary': self.salary,
                       'role': self.role, 'post': self.post,
-                      'bonus': self.bonus, 'address': self.address})
+                      'bonus': self.bonus, 'address': self.address,
+                      'created_at': self.created_at, 'updated_at': self.updated_at})
+        self._delete_private_attrs_helper(attrs)
+        return attrs
+
+    def get_model_attr_with_relations(self):
+        attrs = self.get_model_attr_without_relations()
+        attrs.update({'distributions': self.distributions})
+        self._delete_private_attrs_helper(attrs)
         return attrs
