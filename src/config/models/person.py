@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import Column, LargeBinary
 
 class Person:
     __abstract__ = True
@@ -10,5 +9,6 @@ class Person:
     email: Mapped[str] = mapped_column(unique=True)
     password: Mapped[bytes]
 
-    def get_model_attributes(self, exclude_none=False):
-        return {'fio': self.fio, 'phone_number': self.phone_number, 'password': self.password, 'email': self.email}
+    def get_model_attr_without_relations(self):
+        return {'id': self.id, 'fio': self.fio,
+                'phone_number': self.phone_number, 'password': self.password, 'email': self.email}

@@ -5,6 +5,7 @@ from .config_project import settings
 from datetime import datetime, timezone
 
 __all__ = ['Base', 'db_engine_helper']
+PRIVATE_ATTRS = ['password', 'psw', 'secret_key']
 
 class DatabaseEngineHelper:
 
@@ -75,6 +76,11 @@ def get_current_time():
 
 class Base(DeclarativeBase):
     metadata = MetaData()
-
     created_at: Mapped[datetime] = mapped_column(server_default=text("TIMEZONE('utc', now())"))
     updated_at: Mapped[datetime] = mapped_column(server_default=text("TIMEZONE('utc', now())"), onupdate=text("TIMEZONE('utc', now())"))
+
+    @staticmethod
+    def _delete_private_attrs_helper(attrs: dict):
+        for attr in PRIVATE_ATTRS:
+            if attrs.get(attr, None):
+                del attrs[attr]
