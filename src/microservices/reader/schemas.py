@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator, Field, ConfigDict
+from pydantic import BaseModel, field_validator, Field, ConfigDict, model_validator, EmailStr
 from datetime import datetime, timezone
 from ..book.schemas import *
 from ..distribution.schemas import *
@@ -42,7 +42,6 @@ class ReaderGetDTO(ReaderCreateDTO):
 
 class ReaderUpdateDTO(ReaderCreateDTO):
     id: int = Field(..., ge=0, description='Id читателя')
-    password: bytes = Field(default=b'default_password', exclude=True)
 
 class ReaderDeleteDTO(ReaderGetDTO):
     deleted_at: datetime = Field(default=datetime.now(tz=timezone.utc))

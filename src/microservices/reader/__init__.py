@@ -3,6 +3,8 @@ __all__ = [
     'ReaderCreateDTO',
     'ReaderGetDTO',
     'ReaderUpdateDTO',
+    'ReaderDeleteDTO',
+    'ReaderRelGetDTO',
 ]
 
 from .api import router

@@ -19,13 +19,10 @@ class Readers(PersonMixin, Base):
 
     def get_model_attr_without_relations(self):
         attrs = super().get_model_attr_without_relations()
-        attrs.update({'gender': self.gender, 'discount': self.discount,
-                      'created_at': self.created_at.isoformat(), 'updated_at': self.updated_at.isoformat()})
-        self._delete_private_attrs_helper(attrs)
+        attrs.update({'gender': self.gender, 'discount': self.discount})
         return attrs
 
     def get_model_attr_with_relations(self):
         attrs = self.get_model_attr_without_relations()
         attrs.update({'books': self.books, 'distributions': self.distributions})
-        self._delete_private_attrs_helper(attrs)
         return attrs

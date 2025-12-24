@@ -3,7 +3,6 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import create_engine, MetaData, text
 from .config_project import settings
 from datetime import datetime, timezone
-from .mixin.json_mixin import JsonMixin
 
 __all__ = ['Base', 'db_engine_helper']
 PRIVATE_ATTRS = ['password', 'psw', 'secret_key']
@@ -75,14 +74,8 @@ def get_current_time():
     dt = datetime.now(tz=timezone.utc)
     return dt
 
-class Base(JsonMixin, DeclarativeBase):
+class Base(DeclarativeBase):
     __abstract__ = True
     metadata = MetaData()
     created_at: Mapped[datetime] = mapped_column(server_default=text("TIMEZONE('utc', now())"))
     updated_at: Mapped[datetime] = mapped_column(server_default=text("TIMEZONE('utc', now())"), onupdate=text("TIMEZONE('utc', now())"))
-
-    @staticmethod
-    def _delete_private_attrs_helper(attrs: dict):
-        for attr in PRIVATE_ATTRS:
-            if attrs.get(attr, None):
-                del attrs[attr]

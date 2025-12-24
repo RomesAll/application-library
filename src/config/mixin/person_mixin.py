@@ -11,4 +11,4 @@ class PersonMixin:
 
     def get_model_attr_without_relations(self):
         return {'id': self.id, 'fio': self.fio,
-                'phone_number': self.phone_number, 'password': self.password, 'email': self.email}
+                'phone_number': self.phone_number, 'email': self.email}
