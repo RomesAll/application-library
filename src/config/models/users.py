@@ -39,13 +39,10 @@ class Users(PersonMixin, Base):
         attrs = super().get_model_attr_without_relations()
         attrs.update({'workload': self.workload, 'salary': self.salary,
                       'role': self.role, 'post': self.post,
-                      'bonus': self.bonus, 'address': self.address,
-                      'created_at': self.created_at, 'updated_at': self.updated_at})
-        self._delete_private_attrs_helper(attrs)
+                      'bonus': self.bonus, 'address': self.address})
         return attrs
 
     def get_model_attr_with_relations(self):
         attrs = self.get_model_attr_without_relations()
         attrs.update({'distributions': self.distributions})
-        self._delete_private_attrs_helper(attrs)
         return attrs

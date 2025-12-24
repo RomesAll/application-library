@@ -1,7 +1,6 @@
 from pydantic import BaseModel, field_validator, Field, ConfigDict
 from datetime import datetime, timezone
 from src.config.models import Workload, Role, Post
-from ..distribution.schemas import *
 import re
 
 class UserCreateDTO(BaseModel):
@@ -9,12 +8,12 @@ class UserCreateDTO(BaseModel):
     phone_number: str = Field(default='default_phone_number', examples=['+79021348294', '89021348295'], description='Номер телефона сотрудника')
     email: str = Field(default='default_email', examples=['test@gmail.com'], description='Email сотрудника')
     password: bytes = Field(default=b'default_password')
-    workload: Workload = Field(default='default_workload', description='Рабочая нагрузка сотрудника')
-    salary: float = Field(default='default_salary', ge=0, description='Зарплата сотрудника')
-    role: Role = Field(default='default_role', description='Зарплата сотрудника')
-    post: Post = Field(default='default_post', description='Должность сотрудника')
-    bonus: float = Field(default='default_bonus', ge=0, description='Премия сотрудника')
-    address: str =Field(default='default_address', description='Адрес сотрудника')
+    workload: Workload = Field(default='default_workload', examples=['PARTTIME', 'FULLTIME'],description='Рабочая нагрузка сотрудника')
+    salary: float = Field(default='default_salary', examples=['0'], ge=0, description='Зарплата сотрудника')
+    role: Role = Field(default='default_role', examples=['ADMIN','USER'], description='Зарплата сотрудника')
+    post: Post = Field(default='default_post', examples=['ACCOUNTANT','MANAGER', 'DIRECTOR'], description='Должность сотрудника')
+    bonus: float = Field(default='default_bonus', ge=0, examples=['0'], description='Премия сотрудника')
+    address: str =Field(default='default_address', examples=['г. Москва ул. Пушкина д.3 кв.123'], description='Адрес сотрудника')
     model_config = ConfigDict(from_attributes=True)
 
     @field_validator('phone_number')
@@ -39,7 +38,6 @@ class UserGetDTO(UserCreateDTO):
 
 class UserUpdateDTO(UserCreateDTO):
     id: int = Field(..., ge=0, description='Id сотрудника')
-    password: bytes = Field(default=b'default_password', exclude=True)
 
 class UserDeleteDTO(UserGetDTO):
     deleted_at: datetime = Field(default=datetime.now(tz=timezone.utc))

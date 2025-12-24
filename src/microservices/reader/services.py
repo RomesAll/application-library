@@ -14,6 +14,7 @@ class ReaderServiceAsync:
         result = await ReaderRepositoryAsync(db_session=self.db_session, request=self.request).refresh_password(id_reader, old_password, new_password)
         return result
 
+    #
     async def select_all_records_rel(self, pagination_params: PaginationParams):
         orm_model = await ReaderRepositoryAsync(db_session=self.db_session, request=self.request).select_all_records_rel(pagination_params)
         dto_model = [ReaderRelGetDTO.model_validate(row) for row in orm_model]

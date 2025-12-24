@@ -1,9 +1,5 @@
-from pydantic import BaseModel, field_validator, Field, ConfigDict, computed_field
+from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime, timezone
-from ..users.schemas import *
-from ..book.schemas import *
-from ..reader.schemas import *
-import re
 
 class DistributionCreateDTO(BaseModel):
     books_id: int = Field(default='default_books_id', examples=['1'], description='Номер книги')

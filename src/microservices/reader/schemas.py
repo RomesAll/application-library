@@ -1,7 +1,5 @@
 from pydantic import BaseModel, field_validator, Field, ConfigDict, model_validator, EmailStr
 from datetime import datetime, timezone
-from ..book.schemas import *
-from ..distribution.schemas import *
 import re
 
 class ReaderCreateDTO(BaseModel):

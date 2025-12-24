@@ -1,9 +1,5 @@
-from pydantic import BaseModel, field_validator, Field, ConfigDict, computed_field
+from pydantic import BaseModel, Field, ConfigDict, computed_field
 from datetime import datetime, timezone
-from string import ascii_lowercase
-from ..reader.schemas import *
-from ..distribution.schemas import *
-import re
 
 compliance_table = {
             'а': 'a', 'б': 'b', 'в': 'w', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z',
