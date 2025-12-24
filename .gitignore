@@ -6,3 +6,4 @@
 /src/*/__pycache__/*.pyc
 /src/*/*/__pycache__/*.pyc
 /__pycache__/*.pyc
+/src/migrations/versions/*.py
