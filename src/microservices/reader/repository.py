@@ -1,5 +1,6 @@
 from src.config.models.readers import Readers
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.config.exception_handler import RecordNotFoundError
 from src.config import settings
@@ -19,6 +20,15 @@ class ReaderRepository:
     def __init__(self, db_session, request):
         self.db_session: AsyncSession = db_session
         self.request: Request = request
+
+    async def select_all_reader_rel_async(self, pagination_params: PaginationParams):
+        query = (select(Readers).limit(pagination_params.limit).offset(pagination_params.offset)
+                 .options(selectinload(Readers.books)).options(selectinload(Readers.distributions))
+                 )
+        records = await self.db_session.execute(query)
+        settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о читателях')
+        a = records.scalars().all()
+        return a
 
     async def select_all_reader_async(self, pagination_params: PaginationParams):
         query = select(Readers).limit(pagination_params.limit).offset(pagination_params.offset)

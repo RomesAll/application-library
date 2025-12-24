@@ -11,6 +11,10 @@ async def get_all_readers(request: Request, session: db_session, pagination_para
     result = await ReaderService(db_session=session, request=request).select_all_reader_async(pagination_params)
     return result
 
+@router.get('/rel', description='Вывод всех читателей rel')
+async def get_all_rel_readers(request: Request, session: db_session, pagination_params: pagination_params_dep):
+    result = await ReaderService(db_session=session, request=request).select_all_reader_rel_async(pagination_params)
+    return result
 
 @router.get('/{reader_id}', description='Вывод читателя по id')
 async def get_reader_by_id(reader_id: int, request: Request, session: db_session):

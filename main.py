@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from src.microservices.reader import router as reader_router
+from src.microservices.users import router as users_router
+from src.microservices.distribution import router as distribution_router
+from src.microservices.book import router as book_router
 from src.config import exception_handler_helper
 from src.config import settings
 import uvicorn
@@ -10,8 +13,10 @@ app = FastAPI()
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True)
 
 exception_handler_helper(app)
-
 app.include_router(reader_router)
+app.include_router(users_router)
+app.include_router(distribution_router)
+app.include_router(book_router)
 
 @app.middleware("http")
 async def logging_middleware(request: Request, call_next):

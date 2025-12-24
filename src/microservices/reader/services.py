@@ -9,6 +9,11 @@ class ReaderService:
         self.db_session: AsyncSession = db_session
         self.request: Request = request
 
+    async def select_all_reader_rel_async(self, pagination_params: PaginationParams):
+        orm_model = await ReaderRepository(db_session=self.db_session, request=self.request).select_all_reader_rel_async(pagination_params)
+        dto_model = [ReaderRelGetDTO.model_validate(row) for row in orm_model]
+        return dto_model
+
     async def select_all_reader_async(self, pagination_params: PaginationParams):
         orm_model = await ReaderRepository(db_session=self.db_session, request=self.request).select_all_reader_async(pagination_params)
         dto_model = [ReaderGetDTO.model_validate(row) for row in orm_model]

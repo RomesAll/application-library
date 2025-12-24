@@ -1,6 +1,8 @@
 from pydantic import BaseModel, field_validator, Field, ConfigDict, computed_field
 from datetime import datetime, timezone
 from string import ascii_lowercase
+from ..reader.schemas import *
+from ..distribution.schemas import *
 import re
 
 compliance_table = {
@@ -12,13 +14,13 @@ compliance_table = {
 
 class BookCreateDTO(BaseModel):
     name: str = Field(default='default_name', min_length=5, max_length=200, examples=['Евгений Онегин'], description='Названия книги')
-    publisher: int = Field(default='default_publisher', ge=0, examples=['1'], description='Издатель книги')
+    publishers_id: int = Field(default='default_publisher', examples=['1'], description='Издатель книги')
     year_writing: int = Field(default='default_year_writing', ge=2, examples=['1833'], description='Год написания книги')
     price: float = Field(default='default_price', ge=0, examples=['890'], description='Цена книги')
     discount: float = Field(default='default_discount', ge=0, le=100, examples=['10'], description='Скидка на книги')
-    author: str = Field(default='default_author', ge=0, examples=['Александр Сергеевич Пушкин'], description='Автор книги')
+    author: str = Field(default='default_author', examples=['Александр Сергеевич Пушкин'], description='Автор книги')
     count_page: int = Field(default='default_count_page', ge=1, examples=['80'], description='Кол-во страниц книги')
-    genres: int = Field(default='default_genres', ge=0, examples=['1'], description='Жанр книги')
+    genres_id: int = Field(default='default_genres', ge=0, examples=['1'], description='Жанр книги')
     model_config = ConfigDict(from_attributes=True)
 
     @computed_field
@@ -40,3 +42,7 @@ class BookDeleteDTO(BookGetDTO):
 class PaginationParams(BaseModel):
     limit: int = Field(100, ge=0, le=100, description='Кол-во выводимых записей')
     offset: int = Field(0, ge=0, description='Смещение')
+
+class BookRelGetDTO(BookGetDTO):
+    readers: list['ReaderGetDTO']
+    distributions: list['DistributionGetDTO']

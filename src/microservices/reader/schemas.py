@@ -1,5 +1,7 @@
 from pydantic import BaseModel, field_validator, Field, ConfigDict
 from datetime import datetime, timezone
+from ..book.schemas import *
+from ..distribution.schemas import *
 import re
 
 class ReaderCreateDTO(BaseModel):
@@ -48,3 +50,7 @@ class ReaderDeleteDTO(ReaderGetDTO):
 class PaginationParams(BaseModel):
     limit: int = Field(100, ge=0, le=100, description='Кол-во выводимых записей')
     offset: int = Field(0, ge=0, description='Смещение')
+
+class ReaderRelGetDTO(ReaderGetDTO):
+    books: list['BookGetDTO']
+    distributions: list['DistributionGetDTO']

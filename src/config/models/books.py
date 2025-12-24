@@ -6,20 +6,20 @@ from .readers import *
 class Publishers(Base):
     __tablename__ = 'publishers'
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(unique=True)
     year_foundation: Mapped[int]
     description: Mapped[str] = mapped_column(default='', server_default='')
 
 class Genres(Base):
     __tablename__ = 'genres'
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(unique=True)
 
 class Books(Base):
     __tablename__ = "books"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    slug: Mapped[str]
-    name: Mapped[str]
+    slug: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str] = mapped_column(unique=True)
     publishers_id: Mapped[int] = mapped_column(ForeignKey('publishers.id', ondelete='CASCADE'))
     year_writing: Mapped[int]
     price: Mapped[float]
