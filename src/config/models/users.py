@@ -2,8 +2,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..database import Base
 from sqlalchemy import Index, CheckConstraint
 from enum import Enum
-from .person import Person
 from .distributions import *
+from ..mixin.person_mixin import PersonMixin
 
 class Role(Enum):
     ADMIN = 'ADMIN'
@@ -18,7 +18,7 @@ class Workload(Enum):
     PARTTIME = 'PARTTIME'
     FULLTIME = 'FULLTIME'
 
-class Users(Person, Base):
+class Users(PersonMixin, Base):
     __tablename__ = 'users'
     workload: Mapped["Workload"] = mapped_column(default=Workload.PARTTIME)
     salary: Mapped[float] = mapped_column(default=0)

@@ -1,11 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Index, CheckConstraint
 from ..database import Base
-from .person import Person
-from ..mixin.json_mixin import JsonMixinHelper
 from .books import *
+from ..mixin.person_mixin import PersonMixin
 
-class Readers(Person, Base, JsonMixinHelper):
+class Readers(PersonMixin, Base):
     __tablename__ = 'readers'
     gender: Mapped[str] = mapped_column(default='m')
     discount: Mapped[float] = mapped_column(default=0)

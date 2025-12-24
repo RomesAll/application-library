@@ -1,6 +1,6 @@
 import json
 
-class JsonMixinHelper:
+class JsonMixin:
     __abstract__ = True
 
     def convert_to_python_object(self, relationship=True):
