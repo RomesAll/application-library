@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from src.microservices.reader import router as reader_router
-from src.microservices.users import router as users_router
+from src.microservices.user import router as users_router
 from src.microservices.distribution import router as distribution_router
 from src.microservices.book import router as book_router
 from src.config import exception_handler_helper

@@ -1,10 +1,10 @@
-from src.config.models.readers import Readers
+from src.config.models.models import Readers
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.config.exception_handler import RecordNotFoundError
 from src.config import settings
-from .schemas import PaginationParams
+from src.config.schemas.schemas import *
 from fastapi import Request
 import bcrypt
 

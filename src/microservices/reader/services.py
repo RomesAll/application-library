@@ -1,6 +1,6 @@
-from .schemas import *
+from src.config.schemas.schemas import *
 from .repository import ReaderRepositoryAsync
-from src.config.models import Readers
+from src.config.models.models import Readers
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Request
 

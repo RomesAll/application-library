@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from .schemas import *
+from src.config.schemas.schemas import *
 from .repository import UserRepositoryAsync
 from datetime import datetime, timezone
-from src.config.models import Users
+from src.config.models.models import Users
 from fastapi import Request
 
 class UserServiceAsync:
@@ -15,7 +15,6 @@ class UserServiceAsync:
         result = await UserRepositoryAsync(db_session=self.db_session, request=self.request).refresh_password(id_user, old_password, new_password)
         return result
 
-    #
     async def select_all_records_rel(self, pagination_params: PaginationParams):
         orm_model = await UserRepositoryAsync(db_session=self.db_session, request=self.request).select_all_records_rel(pagination_params)
         dto_model = [UserRelGetDTO.model_validate(row) for row in orm_model]

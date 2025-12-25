@@ -1,10 +1,10 @@
-from src.config.models import Users
+from src.config.models.models import Users
 from sqlalchemy.orm import selectinload
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.config.exception_handler import RecordNotFoundError
 from src.config import settings
-from .schemas import PaginationParams
+from src.config.schemas.schemas import *
 from fastapi import Request
 import bcrypt
 
@@ -37,7 +37,7 @@ class UserRepositoryAsync:
         return records.scalars().all()
 
     async def select_all_records(self, pagination_params: PaginationParams):
-        query = select(Users).limit(pagination_params.limit).offset(pagination_params.offset)
+        query = select(Users)#.limit(pagination_params.limit).offset(pagination_params.offset)
         records = await self.db_session.execute(query)
         settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о сотрудниках')
         return records.scalars().all()

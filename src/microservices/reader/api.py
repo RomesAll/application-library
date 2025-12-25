@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from .schemas import ReaderCreateDTO, ReaderUpdateDTO
+from src.config.schemas.schemas import *
 from .services import ReaderServiceAsync
 from .depends import db_session, pagination_params_dep
 

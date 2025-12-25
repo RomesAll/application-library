@@ -3,4 +3,3 @@ __all__ = [
 ]
 
 from .api import router
-from .schemas import *
