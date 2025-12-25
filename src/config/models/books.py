@@ -3,12 +3,12 @@ from sqlalchemy import ForeignKey, Index, CheckConstraint
 from ..database import Base
 from .readers import *
 
-class Publishers(Base):
-    __tablename__ = 'publishers'
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(unique=True)
-    year_foundation: Mapped[int]
-    description: Mapped[str] = mapped_column(default='', server_default='')
+# class Publishers(Base):
+#     __tablename__ = 'publishers'
+#     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+#     name: Mapped[str] = mapped_column(unique=True)
+#     year_foundation: Mapped[int]
+#     description: Mapped[str] = mapped_column(default='', server_default='')
 
 class Genres(Base):
     __tablename__ = 'genres'
