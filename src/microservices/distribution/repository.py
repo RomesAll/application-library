@@ -1,5 +1,6 @@
 from src.config.models.models import Distributions
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload, joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.config.exception_handler import RecordNotFoundError
 from src.config import settings
@@ -18,12 +19,37 @@ class DistributionRepositoryAsync:
         settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о продажах')
         return records.scalars().all()
 
+    async def select_all_distributions_rel(self, pagination_params: PaginationParams):
+        query = (
+            select(Distributions).limit(pagination_params.limit).offset(pagination_params.offset)
+            .options(joinedload(Distributions.book))
+            .options(joinedload(Distributions.reader))
+            .options(joinedload(Distributions.seller))
+        )
+        records = await self.db_session.execute(query)
+        settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о продажах')
+        return records.scalars().all()
+
     async def select_distribution_by_id(self, distribution_id: int):
         record = await self.db_session.get(Distributions, {'id': distribution_id})
         if record is None:
             raise RecordNotFoundError(message=f'Продажа с номером: {distribution_id} не найдена')
         settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о продаже с id: {distribution_id}')
         return record
+
+    async def select_distribution_by_id_rel(self, distribution_id: int):
+        query = (
+            select(Distributions).filter(Distributions.id == int(distribution_id))
+            .options(joinedload(Distributions.book))
+            .options(joinedload(Distributions.reader))
+            .options(joinedload(Distributions.seller))
+        )
+        records = await self.db_session.execute(query)
+        distribution = records.scalar()
+        if distribution is None:
+            raise RecordNotFoundError(message=f'Продажа с номером: {distribution_id} не найден')
+        settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о продаже с id: {distribution_id}')
+        return distribution
 
     async def create_distribution(self, orm_model: Distributions):
         self.db_session.add(orm_model)

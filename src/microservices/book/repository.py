@@ -1,6 +1,7 @@
 from src.config.models.models import Books
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 from src.config.exception_handler import RecordNotFoundError
 from src.config import settings
 from src.config.schemas.schemas import *
@@ -18,12 +19,35 @@ class BookRepositoryAsync:
         settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о книгах')
         return records.scalars().all()
 
+    async def select_all_books_rel(self, pagination_params: PaginationParams):
+        query = (
+            select(Books).limit(pagination_params.limit).offset(pagination_params.offset)
+            .options(selectinload(Books.distributions))
+            .options(selectinload(Books.readers))
+        )
+        records = await self.db_session.execute(query)
+        settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о книгах')
+        return records.scalars().all()
+
     async def select_book_by_id(self, book_id: int):
         record = await self.db_session.get(Books, {'id': book_id})
         if record is None:
             raise RecordNotFoundError(message=f'Книга с номером: {book_id} не найдена')
         settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о книге с id: {book_id}')
         return record
+
+    async def select_book_by_id_rel(self, book_id: int):
+        query = (
+            select(Books)
+            .options(selectinload(Books.distributions))
+            .options(selectinload(Books.readers))
+        )
+        record = await self.db_session.execute(query)
+        book = record.scalar()
+        if book is None:
+            raise RecordNotFoundError(message=f'Книга с номером: {book_id} не найдена')
+        settings.logging.logger.info(f'{self.request.client.host} - {self.request.method} - вывел данные о книге с id: {book_id}')
+        return book
 
     async def create_book(self, orm_model: Books):
         self.db_session.add(orm_model)

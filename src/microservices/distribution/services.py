@@ -16,9 +16,19 @@ class DistributionServiceAsync:
         dto_model = [DistributionGetDTO.model_validate(row) for row in orm_model]
         return dto_model
 
+    async def select_all_distributions_rel(self, pagination_params: PaginationParams):
+        orm_model = await DistributionRepositoryAsync(db_session=self.db_session, request=self.request).select_all_distributions_rel(pagination_params)
+        dto_model = [DistributionRelGetDTO.model_validate(row) for row in orm_model]
+        return dto_model
+
     async def select_distribution_by_id(self, distribution_id: int):
         orm_model = await DistributionRepositoryAsync(db_session=self.db_session, request=self.request).select_distribution_by_id(distribution_id)
         dto_model = DistributionGetDTO.model_validate(orm_model)
+        return dto_model
+
+    async def select_distribution_by_id_rel(self, distribution_id: int):
+        orm_model = await DistributionRepositoryAsync(db_session=self.db_session, request=self.request).select_distribution_by_id_rel(distribution_id)
+        dto_model = DistributionRelGetDTO.model_validate(orm_model)
         return dto_model
 
     async def create_distribution(self, distribution: DistributionCreateDTO):
